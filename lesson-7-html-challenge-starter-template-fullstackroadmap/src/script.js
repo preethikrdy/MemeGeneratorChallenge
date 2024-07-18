@@ -4,7 +4,18 @@
 * prior to generating new random content
 */
 function clearAll() {
-
+  const meme = document.getElementById("meme-container");
+  const joke = document.getElementById("joke-container");
+  const wisdom = document.getElementById("wisdom-container");
+  const riddle = document.getElementById("riddle-container");
+  const riddleAnswer = document.getElementById("riddle-answer-container");
+  
+  meme.innerHTML = '';
+  joke.innerHTML = '';
+  wisdom.innerHTML = '';
+  riddle.innerHTML = '';
+  riddleAnswer.innerHTML = '';
+  
 }
 
 /**
@@ -13,8 +24,15 @@ function clearAll() {
 * - Never show more than 1 meme at a time
 */
 function showMeme() {
+  clearAll();
   // Value is a string representing image URL
   const randomMemeUrl = getRandomData('memes');
+  const container = document.getElementById("meme-container");
+  
+  const meme = document.createElement("img");
+  meme.src = randomMemeUrl;
+  
+  container.appendChild(meme);
 }
 
 /**
@@ -23,8 +41,15 @@ function showMeme() {
 * - Never show more than 1 joke at a time
 */
 function showJoke() {
+  clearAll();
   // Value is a string representing the joke
   const randomJokeText = getRandomData('jokes');
+  const container = document.getElementById("joke-container");
+  
+  const joke = document.createElement('p');
+  joke.textContent = randomJokeText;
+  
+  container.append(joke);
 }
 
 /**
@@ -33,8 +58,14 @@ function showJoke() {
 * - Never show more than 1 quote at a time
 */
 function showQuote() {
+  clearAll();
   // Value should be in format: { quote: '', author: '' }
   const randomQuote = getRandomData('quotes');
+  const container = document.getElementById("wisdom-container");
+  
+  const wisdom = document.createElement('p');
+  wisdom.textContent = "quote: '" + randomQuote.quote + "', author: '" + randomQuote.author + "'";
+  container.append(wisdom);
 }
 
 /**
@@ -44,8 +75,23 @@ function showQuote() {
 * - Always hide the riddle's answer initially
 */
 function showRiddle() {
+  clearAll();
   // Value should be in format: { question: '', answer: '' }
   const randomRiddle = getRandomData('riddles');
+  const container = document.getElementById("riddle-container");
+  
+  const question = document.createElement('p');
+  const answer = document.createElement('p');
+  
+  question.textContent = randomRiddle.question;
+  answer.textContent = randomRiddle.answer;
+  
+  answer.hidden = true;
+  answer.id = "answer-to-riddle"
+
+  container.append(question);
+  container.append(answer);
+  
 }
 
 /**
@@ -56,8 +102,18 @@ function showRiddle() {
 * - If there is a riddle shown but no answer, unhide the answer!
 */
 function revealAnswers() {
+  const container = document.getElementById("riddle-container");
+  const answer = document.getElementById("answer-to-riddle");
   
-}
+  if (container.children.length == 0) {
+    alert("There is no riddle shown");
+  } else if (answer && !answer.hidden) {
+    alert("The answer is already shown");
+  } else if (answer && answer.hidden) {
+    answer.hidden = false;
+  }
+ 
+ }
 
 /**
 * This function is used to get random data.  Don't worry about how it works, just know how to use it.  Usage is pre-filled in the functions above already, but here's an explanation of the function anyways.
@@ -135,4 +191,3 @@ const data = {
   quotes,
   riddles
 };
-
